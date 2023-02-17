@@ -6,7 +6,7 @@ class CreateUsers < ActiveRecord::Migration[6.1]
       t.string :address
       t.string :password_digest
 
-      t.timestamps
+      t.timestamps null: false
     end
   end
 end
