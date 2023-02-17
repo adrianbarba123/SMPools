@@ -20,8 +20,8 @@ p1 = Pool.create(address: "1234 Sesame St", size: 500, saltwater: true)
 p2 = Pool.create(address: "4321 Sesame Ln", size: 700, saltwater: false)
 
 puts "Creating pool services 👨‍🔧️"
-ps1 = PoolService.create(date: "2023-02-19 14:00:00 PST")
-ps2 = PoolService.create(date: "2023-02-25 15:30:00 PST")
+ps1 = PoolService.create(date: "2023-11-20 15:30:00")
+ps2 = PoolService.create(date: "2023-02-25 15:30:00")
 
 puts "Creating services 🛠️"
 s1 = Service.create(cleaning: true, chemical_balance: true, quote: false)
