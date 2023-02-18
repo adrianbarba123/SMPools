@@ -14,20 +14,22 @@ ActiveRecord::Schema.define(version: 2023_02_17_035435) do
 
   create_table "pool_services", force: :cascade do |t|
     t.datetime "date"
-    t.integer "pools_id", null: false
-    t.integer "services_id", null: false
+    t.integer "pool_id", null: false
+    t.integer "service_id", null: false
     t.datetime "created_at", precision: 6, null: false
     t.datetime "updated_at", precision: 6, null: false
-    t.index ["pools_id"], name: "index_pool_services_on_pools_id"
-    t.index ["services_id"], name: "index_pool_services_on_services_id"
+    t.index ["pool_id"], name: "index_pool_services_on_pool_id"
+    t.index ["service_id"], name: "index_pool_services_on_service_id"
   end
 
   create_table "pools", force: :cascade do |t|
     t.string "address"
     t.integer "size"
     t.boolean "saltwater"
+    t.integer "user_id", null: false
     t.datetime "created_at", precision: 6, null: false
     t.datetime "updated_at", precision: 6, null: false
+    t.index ["user_id"], name: "index_pools_on_user_id"
   end
 
   create_table "services", force: :cascade do |t|
@@ -46,6 +48,7 @@ ActiveRecord::Schema.define(version: 2023_02_17_035435) do
     t.datetime "updated_at", precision: 6, null: false
   end
 
-  add_foreign_key "pool_services", "pools", column: "pools_id"
-  add_foreign_key "pool_services", "services", column: "services_id"
+  add_foreign_key "pool_services", "pools"
+  add_foreign_key "pool_services", "services"
+  add_foreign_key "pools", "users"
 end

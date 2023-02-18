@@ -1,7 +1,7 @@
 class User < ApplicationRecord
     has_secure_password
 
-    has_many :pools
+    has_many :pools, dependent: :destroy
 
     validates :name, presence: true, length: { in: 2..70 }
     validates :password, length: { in: 2..20 }

@@ -5,6 +5,8 @@ class CreatePools < ActiveRecord::Migration[6.1]
       t.integer :size
       t.boolean :saltwater
 
+      t.references :user, null: false, foreign_key: true
+      
       t.timestamps
     end
   end
