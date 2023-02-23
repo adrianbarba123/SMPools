@@ -28,8 +28,7 @@ const Signup = ({setUser, setMessage, setToggleAuth}) => {
 
     const handleSubmit = (e) => {
       e.preventDefault()
-      // console.log(user)
-      fetch("http://localhost:9292/signup",{
+      fetch("http://localhost:3000/signup",{
           method: "POST",
           headers: {
               "Content-Type": "application/json"

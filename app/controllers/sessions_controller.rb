@@ -1,18 +1,17 @@
 class SessionsController < ApplicationController
 
-    post "/login" do
-        user = User.find_by_email(params[:email])
-        if user&.authenticate(params[:password])
-            session[:user_id] = user.id #we log them in
-            halt 200, {user: user}.to_json #halt 200 means it was successful
+    def login
+        user = User.find_by(email: params[:email])
+        if user && user.authenticate(params[:password])
+            session[:user_id] = user.id
+            render json: {user: user}, status: 200
         else
-            halt 400, {message: "Invalid credentials!"}.to_json #halt 400 means bad request
+            render json: {message: "Invalid credentials!"}, status: 400
         end
     end
 
-    delete "/logout" do
+    def logout
         session.delete(:user_id)
-        halt 200, {message: "Successfully logged out!"}.to_json
+        render json: {message: "Successfully logged out!"}, status: 204
     end
-
 end

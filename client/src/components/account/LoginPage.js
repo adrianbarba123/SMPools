@@ -28,7 +28,7 @@ const Login = ({setUser, setMessage, setToggleAuth}) => {
         e.preventDefault()
         console.log(user)
     
-        fetch("http://localhost:9292/login",{
+        fetch("/login",{
             method: "POST",
             headers: {
                 "Content-Type": "application/json"
@@ -36,7 +36,7 @@ const Login = ({setUser, setMessage, setToggleAuth}) => {
             body: JSON.stringify(user)
         })
         .then(resp => {
-            if (resp.ok) {
+            if (resp.status === 200) {
                 resp.json().then(userObj => {
                     setUser(userObj.user)
                     setMessage("User successfully logged in!")

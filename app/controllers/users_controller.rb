@@ -4,7 +4,7 @@ class UsersController < ApplicationController
     end
 
     def show
-        render json: User.find(params[:id]), status: :ok
+        render json: {user: @current_user}, status: :ok
     end
 
     def destroy
