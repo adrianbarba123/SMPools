@@ -69,8 +69,6 @@ const handleDelete = (e) => {
             </h3>
             <br/>
             
-            <Link>Manage Account</Link> <br/>
-            
             <form onSubmit={handleSubmit}>
             <input className="user-input" onChange= {handleChange} value= {updatedUser.name} type="text" placeholder="Name" name="name"  required /> <br />
             <input className="user-input" onChange= {handleChange} value= {updatedUser.email} type="text" placeholder="E-Mail" name="email"  required /> <br />
