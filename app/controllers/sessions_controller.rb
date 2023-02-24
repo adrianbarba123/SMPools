@@ -1,4 +1,5 @@
 class SessionsController < ApplicationController
+    skip_before_action :check_user, only: [:login]
 
     def login
         user = User.find_by(email: params[:email])
@@ -14,4 +15,5 @@ class SessionsController < ApplicationController
         session.delete(:user_id)
         render json: {message: "Successfully logged out!"}, status: 204
     end
+    
 end

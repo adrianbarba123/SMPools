@@ -31,4 +31,4 @@
 /config/master.key
 
 # Ignore session secret in DOTENV
-/storage/.env
+.env

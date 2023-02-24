@@ -17,7 +17,7 @@ class ApplicationController < ActionController::API
   end
   
   def check_user
-    render json: { errors: "User not authorized" }, status: 402 unless current_user
+    render json: { errors: "User not authorized" }, status: 422 unless current_user
   end
 
   def current_user

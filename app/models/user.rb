@@ -5,6 +5,7 @@ class User < ApplicationRecord
     validates :password, length: { in: 2..20 }
 
     has_many :pools, dependent: :destroy
+    has_many :services, through: :pools
 
     
 

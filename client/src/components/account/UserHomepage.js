@@ -15,9 +15,10 @@ const UserHomepage = ({user, setUser}) => {
         console.log(e)
 
     }
+
     const handleSubmit = (e) => {
         e.preventDefault()
-        fetch(`http://localhost:3000/users/${user.id}`, {
+        fetch(`/users/${user.id}`, {
             method: "PATCH",
             headers: {
               "Content-Type": "application/json"
@@ -41,12 +42,17 @@ const UserHomepage = ({user, setUser}) => {
     })
 }
 
-    const handleDelete = (e) => {
+const handleDelete = (e) => {
     e.preventDefault()
-   fetch(`http://localhost:3000/users/${user.id}`, {method: "DELETE"})
+    fetch(`/users/${user.id}`, {method: "DELETE"})
     .then(() => setUser(null))
     
     
+  }
+
+  const handleLogout = (e) => {
+    fetch(`/logout`, {method: "DELETE"})
+    .then(() => setUser(null))
   }
   
 
@@ -55,7 +61,6 @@ const UserHomepage = ({user, setUser}) => {
         <h1>SMPools</h1>
         <div>
            
-            <img className="user-logo" src="https://iili.io/H0j4Y0l.png" alt="user"/>
             <h2> My Account </h2>
             <h3>
             {user.email}
@@ -72,7 +77,7 @@ const UserHomepage = ({user, setUser}) => {
             <button type="submit" >Update</button> <br/>
             <button onClick={handleDelete}>Remove Account</button>
             <br/>
-            <button>Logout</button>
+            <button onClick={handleLogout}>Logout</button>
             </form>
         </div>
 

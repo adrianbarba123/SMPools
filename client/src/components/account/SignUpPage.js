@@ -11,7 +11,7 @@ import { useNavigate } from 'react-router-dom';
 
 const Signup = ({setUser, setMessage, setToggleAuth}) => {
     const [user, setUserObj] = useState({
-        username: "",
+        name: "",
         email: "",
         password: "",
         password_confirmation: ""
@@ -28,7 +28,7 @@ const Signup = ({setUser, setMessage, setToggleAuth}) => {
 
     const handleSubmit = (e) => {
       e.preventDefault()
-      fetch("http://localhost:3000/signup",{
+      fetch("/signup",{
           method: "POST",
           headers: {
               "Content-Type": "application/json"
@@ -36,14 +36,14 @@ const Signup = ({setUser, setMessage, setToggleAuth}) => {
           body: JSON.stringify(user)
       })
       .then(resp => {
-          if (resp.ok) {
+          if (resp.status === 201) {
               resp.json().then(userObj => {
-                setUser(userObj.user)
+                setUser(userObj)
                 setMessage("User successfully logged in!")
                 return navigateHome("/usersignin")
               })
           } else {
-              resp.json().then(messageObj => setMessage(messageObj.message))
+              resp.json().then(messageObj => setMessage(messageObj.errors.join(" ")))
           }})
           
   }
@@ -74,15 +74,15 @@ const Signup = ({setUser, setMessage, setToggleAuth}) => {
           </div>
           <form onSubmit={handleSubmit}>
             <FormControl>
-                <FormLabel>Username</FormLabel>
+                <FormLabel>Name</FormLabel>
                 <Input
                 // html input attribute
                 required
-                name="username"
-                type="username"
+                name="name"
+                type="name"
                 placeholder="johndoe"
                 onChange={handleChange}
-                value={user.username}
+                value={user.name}
                 />
             </FormControl>
             <FormControl>
