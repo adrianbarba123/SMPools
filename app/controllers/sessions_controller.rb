@@ -1,5 +1,6 @@
 class SessionsController < ApplicationController
-    skip_before_action :check_user, only: [:login]
+    skip_before_action :check_user
+
 
     def login
         user = User.find_by(email: params[:email])

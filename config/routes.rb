@@ -3,7 +3,10 @@ Rails.application.routes.draw do
   resources :pool_services
   resources :services
   resources :pools
-  resources :users, except: [:create, :show]
+  
+  resources :users, except: [:create, :show] do
+    get 'pools', to: 'users#pools'
+  end
 
   post "/login", to: "sessions#login"
   post "/signup", to: "users#create"

@@ -1,22 +1,22 @@
-import Link from '@mui/joy/Link';
-import { useState } from "react"
+import { useState, useEffect } from "react"
 
 const UserHomepage = ({user, setUser}) => {
     console.log(user.email)
-    console.log ("this is setUser in userhomepage" + setUser)
 
     const [updatedUser, setUpdatedUser] = useState(user)
-    console.log(user)
+    console.log(updatedUser)
+    const [userPools, setUserPools] = useState([])
+    console.log(userPools)
+    const [newPool, setNewPool] = useState([])
+    console.log(newPool)    
     
-    
-    const handleChange = (e) => {
+    const handleUserChange = (e) => {
+        console.log(e)
         const {name, value} = e.target
         setUpdatedUser({...updatedUser, [name]: value})
-        console.log(e)
-
     }
 
-    const handleSubmit = (e) => {
+    const handleUserSubmit = (e) => {
         e.preventDefault()
         fetch(`/users/${user.id}`, {
             method: "PATCH",
@@ -42,7 +42,7 @@ const UserHomepage = ({user, setUser}) => {
     })
 }
 
-const handleDelete = (e) => {
+const handleUserDelete = (e) => {
     e.preventDefault()
     fetch(`/users/${user.id}`, {method: "DELETE"})
     .then(() => setUser(null))
@@ -50,11 +50,50 @@ const handleDelete = (e) => {
     
   }
 
-  const handleLogout = (e) => {
+  const handleUserLogout = (e) => {
     fetch(`/logout`, {method: "DELETE"})
     .then(() => setUser(null))
   }
-  
+
+    const handlePoolSubmit = (e) => {
+        e.preventDefault()
+        fetch(`/pools`, {
+        method: "POST",
+        headers: {
+            "Content-Type": "application/json",
+        },
+        body: JSON.stringify({ 
+            address: newPool.address,
+            size: newPool.size,
+            user_id: user.id 
+        }),
+        })
+        .then((response) => {
+            if (response.status === 200) {
+            response.json().then((data) => {
+                setNewPool([...userPools, data.pool])
+            })
+            } else {
+            response.json().then((messageObj) => {
+                alert(messageObj.message)
+            })
+            }
+        })
+    }
+
+    const handlePoolChange = (e) => {
+        console.log(e.target.value)
+    }
+
+  useEffect(() => {
+    if (user) {
+      fetch(`/users/${user.id}/pools`)
+        .then((response) => response.json())
+        .then((data) => {
+          setUserPools(data);
+        });
+    }
+  }, [user]);
 
     return (
     <>
@@ -65,17 +104,29 @@ const handleDelete = (e) => {
             <h3>
             {user.email}
             <br/>
-            {user.first_name} 
+            {user.name} 
             </h3>
             <br/>
+            <h2> My Pools </h2>
+            <ul>
+                {
+                Object.values(userPools).map(pool => (
+                <li key={pool.id}>{pool.address}</li>
+                ))}
+            </ul>
             
-            <form onSubmit={handleSubmit}>
-            <input className="user-input" onChange= {handleChange} value= {updatedUser.name} type="text" placeholder="Name" name="name"  required /> <br />
-            <input className="user-input" onChange= {handleChange} value= {updatedUser.email} type="text" placeholder="E-Mail" name="email"  required /> <br />
-            <button type="submit" >Update</button> <br/>
-            <button onClick={handleDelete}>Remove Account</button>
+            <form onSubmit={handleUserSubmit}>
+            <input className="user-input" onChange={handleUserChange} value= {updatedUser.name} type="text" placeholder="Name" name="name"  required /> <br />
+            <input className="user-input" onChange={handleUserChange} value= {updatedUser.email} type="text" placeholder="E-Mail" name="email"  required /> <br />
+            <button type="submit">Update</button> <br/>
+            <button onClick={handleUserDelete}>Remove Account</button>
             <br/>
-            <button onClick={handleLogout}>Logout</button>
+            <button onClick={handleUserLogout}>Logout</button>
+            </form>
+
+            <form onSubmit={handlePoolSubmit}>
+            <input type="text" value={newPool.address} onChange={handlePoolChange} />
+            <button type="submit">Add Pool</button>
             </form>
         </div>
 

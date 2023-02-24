@@ -45,7 +45,6 @@ const Signup = ({setUser, setMessage, setToggleAuth}) => {
           } else {
               resp.json().then(messageObj => setMessage(messageObj.errors.join(" ")))
           }})
-          
   }
 
   return (
